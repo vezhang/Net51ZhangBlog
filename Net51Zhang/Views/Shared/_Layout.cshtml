@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>张丹的个人网站 - Vector Zhang's Personal Website</title>
+    <link href="~/Images/Batman_128px_1184960_easyicon.net.ico" rel="shortcut icon" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/fontawesome")
+    @Styles.Render("~/Content/css")
+
+    @Html.Partial("_html5shiv")
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+<header style="background-color: #000000">
+    <div class="container clear">
+        <nav class="navbar navbar-btn" role="navigation">
+            <div class="col-lg-7 clearfix">
+                <ul class="nav navbar-nav" id="menu">
+                    <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                    <li>@Html.ActionLink("电影世界", "Index", "Movie")</li>
+                    <li>@Html.ActionLink("智能识图", "HowOld", "Oxford")</li>
+                    <li>@Html.ActionLink("奶爸日记", "Index", "Diary")</li>
+                    <li>@Html.ActionLink("关于我", "About", "Home")</li>
+                </ul>
+            </div>
+            <div class="col-lg-5">
+                <div class="input-group input-group-container">
+                    <input id="search-input-id" type="text" placeholder="搜索 电影名称、演员、导演" class="form-control">
+                    <a id="search-btn-id" title="搜索一下" class="input-group-addon cursor-point"><i class="fa fa-search" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<div id="body">
+    <section class="clear-fix">
+        @RenderBody()
+    </section>
+</div>
+<footer>
+    <div class="footer-wrapper">
+        <p>Copyright &copy; @DateTime.Now.Year All Rights Reserved <a class="text-muted" href="http://www.miitbeian.gov.cn/" target="_blank">苏ICP备16016188号</a>
+            </p>
+    </div>
+</footer>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("PostScripts", false)
+
+<script type="text/javascript">
+    $(function () {
+        var $win = $(window);
+        $('#body').css("min-height", $win.innerHeight()-213);
+        $win.resize(function () {
+            $('#body').css("min-height", $win.innerHeight() - 213);
+        });
+
+        function triggerSearch() {
+            var query = $("#search-input-id").val();
+            if (query) {
+                var url = '@Url.Action("Search", "Movie")' + '?query=' + query;
+                window.open(url,"_self");
+            }
+            };
+
+        $("#search-btn-id").click(function (event) {
+            triggerSearch();
+        });
+
+        $("#search-input-id").keypress(function (event) {
+            var e = event || window.event;
+            if (e.keyCode === 13) {
+                triggerSearch();
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿@using Newtonsoft.Json.Linq
+@model List<Net51Zhang.Models.Movie.EntityModel.USBoxEntity>
+
+<div class="panel panel-default" style="width: 280px;">
+    <div class="panel-heading">
+        <span><i class="fa fa-sort-amount-desc"></i>&nbsp;<strong>北美票房榜</strong><span class="pull-right">美元</span></span>
+    </div>
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+            <span class="list-group-item" style="font-size: 12px">
+                    <span>@item.Rank</span>
+                    <a href="@Url.Action("Detail","Movie")?id=@item.Id" title="去看详细信息">@item.Title</a>
+                    <span class="pull-right">@item.Box</span>
+            </span>
+        }
+    </div>
+</div>

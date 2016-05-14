@@ -1,0 +1,112 @@
+﻿<div class="container">
+    <div class="row" style="margin-top: 25px">
+        <div class="col-lg-8">
+            <p class="about-font">张丹 (Vector Zhang)，一个信佛的自由主义者</p>
+            <br>
+            <p class="about-font">
+                江南小城里走出来的技术宅，一头扎进代码的世界，终日不倦
+            </p>
+            <br/>
+            <p class="about-font">2010年本科毕业于浙江工商大学</p>
+            <br>
+            <p class="about-font">2013年硕士毕业于南京理工大学</p>
+            <br>
+            <p class="about-font">目前在微软亚洲互联网工程院从事软件开发工作</p>
+            <br>
+            <p class="about-font">爱科技、爱生活、爱自由，信奉 "专业的人做专业的事 用技术创造价值"</p>
+            <br>
+            <p class="about-font">可以扫描下面的二维码加我微信:</p>
+            <div>
+                <img height="160" src="@Href("../../Images/mmqrcode1459935823359.png")" title="MatrixV"/>
+            </div>
+            <br>
+            <p class="about-font">也可以通过以下方式联系到我:</p>
+            <br>
+            <div>
+                <ul class="list-inline">
+                    <li>
+                        <a title="发邮件给我" href="mailto:blue4062@163.com" >
+                            <span class="fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a title="Github 账户" href="https://github.com/vezhang" target="_blank">
+                            <span class="fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a title="Linkedin 账户" href="https://cn.linkedin.com/in/vectorzhang" target="_blank">
+                            <span class="fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a title="博客园 账户" href="http://www.cnblogs.com/VectorZhang/" target="_blank" >
+                            <span class="fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;<strong>关于博主</strong></span>
+                </div>
+                <div class="panel-body text-muted">
+                    <div class="about-me-div">
+                        <img id="wo-img" title="Vector" height="200" src="@Href("~/Images/wo.jpg")"/>
+                    </div>
+                    <div>网名: Vector | 叶落</div>
+                    <div>籍贯: 浙江-桐乡</div>
+                    <div>现居: 苏州-工业园区</div>
+                    <div>职业: 程序员</div>
+                    <div>副业: 奶爸</div>
+                    <div>喜欢的书: 《西游记》《乱世佳人》</div>
+                    <div>喜欢的节目: 《罗辑思维》《晓说》</div>
+                    <div>期待的电影: 《诸神的黄昏》《神奇女侠》</div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span><i class="fa fa-user"></i>&nbsp;<strong>友情链接</strong></span>
+                </div>
+                <div class="list-group">
+                    <a href="http://www.cnblogs.com/artech/" class="list-group-item" target="_blank">蒋金楠(Artech)的博客园</a>
+                    <a href="http://blog.jobbole.com/tag/net/" class="list-group-item" target="_blank">.Net 伯乐在线</a>
+                    <a href="http://www.mtime.com/" class="list-group-item" target="_blank">Mtime 时光网</a>
+                    <a href="https://www.microsoft.com/cognitive-services/" class="list-group-item" target="_blank">Microsft Oxford</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section PostScripts{
+    <script type="text/javascript">
+        $(function () {
+            var $wo = $("#wo-img");
+            var oldImg = '@Href("~/Images/wo.jpg")';
+            var newImg = '@Href("~/Images/zhangdan.jpg")';
+
+            $wo.mouseenter(function() {
+                $wo.attr("src", newImg);
+            }).mouseleave(function () {
+                $wo.attr("src", oldImg);
+            });
+        });
+    </script>
+}

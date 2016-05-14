@@ -1,0 +1,21 @@
+﻿@{
+    var url = Url.Action("Category", "Movie");
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span><i class="fa fa-bars"></i>&nbsp;<strong>电影类型</strong></span>
+    </div>
+    <div class="list-group">
+        <a href="@url?tag=动作" class="list-group-item">动作</a>
+        <a href="@url?tag=恐怖" class="list-group-item">恐怖</a>
+        <a href="@url?tag=战争" class="list-group-item">战争</a>
+        <a href="@url?tag=剧情" class="list-group-item">剧情</a>
+        <a href="@url?tag=爱情" class="list-group-item">爱情</a>
+        <a href="@url?tag=科幻" class="list-group-item">科幻</a>
+        <a href="@url?tag=悬疑" class="list-group-item">悬疑</a>
+        <a href="@url?tag=家庭" class="list-group-item">家庭</a>
+        <a href="@url?tag=动画" class="list-group-item">动画</a>
+        <a href="@url?tag=喜剧" class="list-group-item">喜剧</a>
+      </div>
+</div>

@@ -1,0 +1,8 @@
+﻿@model List<Net51Zhang.Models.Movie.EntityModel.MovieEntity>
+
+@foreach (var movie in Model)
+{
+    <div class="row">
+        @Html.Partial("_MovieEntity", movie)
+    </div>
+}

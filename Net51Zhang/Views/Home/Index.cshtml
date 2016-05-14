@@ -1,0 +1,79 @@
+﻿<div class="clearfix">
+    <div>
+        <img style="width: 100%" src="@Href("../../Images/homepage.jpg")" title="Vector Zhang's personal website"/>
+        <h1 class="welcome-span">Welcome to Zen Puzzle Garden</h1>
+    </div>
+    <div class="col-lg-12" style="padding: 80px 30px 80px 30px">
+        <div class="col-lg-3">
+            <div class="navigate-container">
+                <div class="navigate-icon-container" style="background-color: #428bca">
+                    <div class="text-center">
+                        <span><i class="fa fa-film fa-inverse" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="navigate-text-container">
+                    <a href="@Url.Action("Index", "Movie")" class="text-center navigate-text" style="background-color: #2578BE">电影世界</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="navigate-container">
+                <div class="navigate-icon-container" style="background-color: #5cb85c">
+                    <div class="text-center">
+                        <span><i class="fa fa-book fa-inverse" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="navigate-text-container">
+                    <a href="@Url.Action("HowOld","Oxford")" class="text-center navigate-text" style="background-color: #45A845">智能识图</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="navigate-container">
+                <div class="navigate-icon-container" style="background-color: #f0ad4e">
+                    <div class="text-center">
+                        <span><i class="fa fa-leaf fa-inverse" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="navigate-text-container">
+                    <a href="@Url.Action("Index","Diary")" class="text-center navigate-text" style="background-color: #E2982E">奶爸日记</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="navigate-container">
+                <div class="navigate-icon-container" style="background-color: #5bc0de">
+                    <div class="text-center">
+                        <span><i class="fa fa-child fa-inverse" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="navigate-text-container">
+                    <a href="@Url.Action("About", "Home")" class="text-center navigate-text" style="background-color: #39A0BE">关于我</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PostScripts{
+    <script type="text/javascript">
+        $(function() {
+
+            $(".navigate-icon-container").mouseenter(function () {
+                var $this = $(this);
+                oldColor = $this.css("background-color");
+                if (!$this.attr("oldColor")) {
+                    $this.attr("oldColor", oldColor);
+                }
+                $this.stop(true, true).animate({ "background-color": "#434343" }, "slow");
+            }).mouseleave(function() {
+                var $this = $(this);
+                var oldColor = $this.attr("oldColor");
+                if (oldColor) {
+                    $this.stop(true, true).animate({ "background-color": oldColor }, "slow");
+                }
+            });
+        });
+    </script>
+}
+

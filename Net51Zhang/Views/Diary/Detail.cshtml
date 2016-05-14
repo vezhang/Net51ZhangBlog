@@ -1,0 +1,108 @@
+﻿@model Net51Zhang.Models.Diary.DetailModel
+
+@{
+    Layout = "_DiaryLayout.cshtml";
+}
+
+@section breadcrumb
+{
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="/">首页</a></li>
+        <li><i class="fa fa-graduation-cap"></i><a href="@Url.Action("Index", "Diary")">&nbsp;&nbsp;奶爸日记</a></li>
+        <li class="active"><i class="fa fa-file"></i>&nbsp;&nbsp;@Model.Entity.Title</li>
+    </ol>
+}
+
+<div style="background-color: lightgray; padding: 14px">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h1 class="panel-title">@Model.Entity.Title</h1>
+        </div>
+        <div class="panel-body">
+            @Html.Partial("_DiaryEntity", Model.Entity)
+        </div>
+        <div class="panel-footer">
+            <div class="list-group-item list-inline">
+                <span><i class="fa fa-bars"></i></span>
+                <span>@Model.Entity.Tag</span>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Comments != null && Model.Comments.Any())
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title">
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                    @Model.Comments.Count 条评论
+                </h1>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        var siteUrl = string.IsNullOrEmpty(comment.SiteUrl) ?
+                            string.Empty : (comment.SiteUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? comment.SiteUrl : "http://" + comment.SiteUrl);
+
+                        <div class="list-group-item clearfix">
+                            <div class="col-lg-1 text-center">
+                                <img src="@comment.Avatar" title="@comment.NickName" height="60" width="60" class="border-radius-img"/>
+                            </div>
+                            <div class="col-lg-10">
+                                <div>
+                                    <strong class="@(string.IsNullOrEmpty(siteUrl) ? "" : "hidden")">@comment.NickName</strong>
+                                    <a class="@(string.IsNullOrEmpty(siteUrl) ? "hidden" : "comment-link-name")" title="@siteUrl"
+                                       target="_blank" href="@siteUrl">@comment.NickName</a>
+                                    <span>@comment.CreatedTime.ToString("yyyy-MM-dd hh:mm")</span>
+                                </div>
+                                <span class="text-justify">@comment.Content</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        <form id="add-comment-form" action="@Url.Action("Detail_AddComment", "Diary")" method="POST" role="form">
+            <div class="form-horizontal">
+                <div class="validation-summary-valid" data-valmsg-summary="true">
+                    <ul><li style="display: none"></li></ul>
+                </div>
+                <div class="form-group hidden">
+                    <input type="text" name="DiaryId" value="@Model.Entity.Id"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="NickName" placeholder="昵称" data-val="true" data-val-required="评论需要留个网名" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="Email" placeholder="邮箱 仅用于头像(Gavatar)" data-val="true" data-val-required="添加邮箱可以显示头像" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="SiteUrl" placeholder="主页" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <textarea rows="6" name="Content" placeholder="给个评论吧" data-val="true" data-val-required="评论不能为空噢" class="form-control"></textarea>
+                </div>
+                <button class="btn btn-primary">提交评论</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section DiaryPostScripts{
+    <script type="text/javascript">
+        $(function() {
+            $("#star-up-uri").click(function (e) {
+                $(this).css("color", "orange").off();
+                var num = parseInt($("#star-up-num").text());
+                $("#star-up-num").text(++num);
+
+                $.post('@Url.Action("Detail_StarUp","Diary")', { id: '@Model.Entity.Id' }, function(data) {
+                    console.log(data);
+                });
+            });
+        });
+    </script>
+}

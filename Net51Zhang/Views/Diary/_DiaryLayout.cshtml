@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clearfix" style="padding: 25px">
+    <div class="col-lg-offset-1 col-lg-8">
+        @RenderSection("breadcrumb", true)
+    </div>
+
+    <div class="col-lg-offset-1 col-lg-8">
+        @RenderBody()
+    </div>
+    <div class="col-lg-2">
+        @Html.Partial("_DiaryLink")
+    </div>
+</div>
+
+@section PostScripts
+{
+    @RenderSection("DiaryPostScripts", false)
+}
+

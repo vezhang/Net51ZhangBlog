@@ -1,0 +1,29 @@
+﻿@model Net51Zhang.Models.Movie.SearchModel
+
+@{
+    Layout = "_MovieLayout.cshtml";
+}
+
+@section breadcrumb
+{
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="/">首页</a></li>
+        <li class="active"><i class="fa fa-file"></i>&nbsp;&nbsp;结果</li>
+    </ol>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span class="panel-title">
+                搜索 "@Model.Query" 的结果
+            </span>
+    </div>
+    <div class="panel-body">
+        @foreach (var movie in Model.Movies)
+        {
+            <div class="row">
+                @Html.Partial("_MovieEntity", movie)
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@model Net51Zhang.Models.Movie.BaseMovieModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clearfix" style="padding: 25px">
+    <div class="col-lg-offset-1 col-lg-8">
+        @RenderSection("breadcrumb", true)
+    </div>
+
+    <div class="col-lg-offset-1 col-lg-8">
+        @RenderBody()
+    </div>
+    <div class="col-lg-2">
+        @Html.Partial("_USBox", Model.UsBoxEntities)
+        @Html.Partial("_MovieCategory")
+    </div>
+</div>
+
+@section PostScripts
+{
+    @RenderSection("MoviePostScripts", false)
+}
+

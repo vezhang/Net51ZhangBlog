@@ -1,0 +1,111 @@
+﻿@model Net51Zhang.Models.Movie.CategoryModel
+
+@{
+    Layout = "_MovieLayout.cshtml";
+}
+
+@section breadcrumb
+{
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="/">首页</a></li>
+        <li><i class="fa fa-film"></i><a href="@Url.Action("Index", "Movie")">电影世界</a></li>
+        <li class="active"><i class="fa fa-file"></i>&nbsp;&nbsp;@Model.Tag 电影</li>
+    </ol>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span class="panel-title">
+            @Model.Tag 电影
+        </span>
+    </div>
+    <div class="panel-body">
+        <div class="clearfix">
+            <div id="category-body">
+                @Html.Partial("_PartialCategory", Model.Movies)
+            </div>
+            <div id="category-spin" class="col-lg-offset-6 col-lg-6" style="display: none">
+                <span><i class="fa fa-spin fa-spinner fa-2x"></i></span>
+            </div> 
+        </div>
+        <div class="text-center">
+            <ul class="pagination pagination-lg">
+                <li><a id="left-page" href="javascript:void(0)"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                <li class="active"><a href="javascript:void(0)">1</a></li>
+                <li><a href="javascript:void(0)">2</a></li>
+                <li><a href="javascript:void(0)">3</a></li>
+                <li><a href="javascript:void(0)">4</a></li>
+                <li><a href="javascript:void(0)">5</a></li>
+                <li><a href="javascript:void(0)">6</a></li>
+                <li><a href="javascript:void(0)">7</a></li>
+                <li><a href="javascript:void(0)">8</a></li>
+                <li><a id="right-page" href="javascript:void(0)"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section MoviePostScripts
+{
+    <script type="text/javascript">
+        $(function() {
+
+            function currentIndex() {
+                var indx = $(".pagination > li + .active > a").text();
+                return parseInt(indx);
+            }
+
+            function callBackImpl($targetItem) {
+                $(".pagination > li + .active").removeClass("active");
+                $targetItem.addClass("active");
+
+                $("#category-body").show();
+                $("#category-spin").hide();
+            }
+
+            function handlePageClick(index, callback) {
+                var startIndex = (index - 1) * 10;
+
+                $(window).scrollTop(0);
+
+                $("#category-body").hide();
+                $("#category-spin").show();
+
+                $("#category-body").load('@Url.Action("Category", "Movie")', { start: startIndex, tag: '@Model.Tag' }, callback);
+            }
+
+            $("#left-page").click(function() {
+                var curIndex = currentIndex();
+                if (curIndex === 1) {
+                    return;
+                }
+
+                var $item = $(".pagination > li + .active");
+
+                handlePageClick(curIndex - 1, function() { callBackImpl($item.prev()); });
+            });
+
+            $("#right-page").click(function() {
+                var curIndex = currentIndex();
+                if (curIndex === 8) {
+                    return;
+                }
+
+                var $item = $(".pagination > li + .active");
+
+                handlePageClick(curIndex + 1, function () { callBackImpl($item.next()); });
+            });
+
+            $(".pagination > li > a:not(#left-page, #right-page)").click(function() {
+                var that = this;
+                var index = parseInt(that.text);
+
+                if (currentIndex() === index) {
+                    return;
+                }
+
+                handlePageClick(index, function() { callBackImpl($(that).parent()); });
+            });
+        });
+    </script>
+}

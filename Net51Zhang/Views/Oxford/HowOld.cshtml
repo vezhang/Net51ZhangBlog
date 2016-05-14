@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "_OxfordLayout.cshtml";
+}
+
+@section breadcrumb{
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="/">首页</a></li>
+        <li class="active"><i class="fa fa-file"></i>&nbsp;&nbsp;年龄识别</li>
+    </ol>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">测测你的年龄</h1>
+    </div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-4">
+                    <input class="form-control" type="file" name="file" id="img-input"/>
+                </div>
+                <div class="col-lg-offset-2 col-lg-2">
+                    <button id="submit-btn" class="btn btn-primary">测一测</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="text-center">
+                    <div style="display: inline-block; position: relative;">
+                        <span id="spinner-id" style="display: none; z-index: 9999; position: absolute;left: 50%; top: 50%"><i class="fa fa-spin fa-spinner fa-3x"></i></span>
+                        <img id="img-id" src="@Href("~/Images/face/detection2.jpg")" style="height: auto; max-width: 100%; position: relative;"/>
+                        <div id="faces">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @for (var i = 0; i <= 5; i++)
+                {
+                    <div class="col-lg-2">
+                        <img id="sample-img-@(i)" onclick="sampleImgClick(@(i))" class="cursor-point" src="@Href("~/Images/face/detection" + i + ".jpg")" style="height: 100%; width: 100%"/>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section OxfordPostScripts
+{
+    <script type="text/javascript">
+
+        var isSampleImage = true;
+        var isCaculating = false;
+
+        function clearFace() {
+            $(".face-child").remove();
+            $(".face-text-container").remove();
+        }
+
+        function clearSpinner() {
+            $("#spinner-id").hide();
+            $("#img-id").css("opacity", "1.0");
+        }
+
+        function startSpinner() {
+            $("#img-id").css("opacity", "0.5");
+            $("#spinner-id").show();
+        }
+
+        function sampleImgClick(index) {
+            clearFace();
+            var $node = $("#sample-img-" + index);
+            $("#img-id").attr("src", $node.attr("src"));
+            endCaculate();
+            isSampleImage = true;
+        }
+
+        function startCaculate() {
+            isCaculating = true;
+            clearFace();
+            startSpinner();
+            $("#submit-btn").attr("disabled", true);
+        }
+
+        function endCaculate() {
+            isCaculating = false;
+            clearSpinner();
+            $("#submit-btn").attr("disabled", false);
+        }
+
+        $(function() {
+            var apiContentUrl = '@Url.Action("HowOld_ApiContent", "Oxford")';
+            var apiFileUrl = '@Url.Action("HowOld_ApiFile", "Oxford")';
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#img-id').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#img-input").change(function() {
+                clearFace();
+                clearSpinner();
+                readURL(this);
+                isSampleImage = false;
+                isCaculating = false;
+            });
+
+            $("#submit-btn").click(function() {
+
+                startCaculate();
+
+                var fileOrContent = $("#img-id").attr("src");
+                var url = isSampleImage ? apiFileUrl : apiContentUrl;
+
+
+                $.post(url, { input: fileOrContent }, function(response) {
+
+                    if (isCaculating && !response.Error) {
+                        if (response.Attach) {
+                            $("#img-id").attr("src", response.Attach);
+                        }
+
+                        var data = response.Data || [];
+                        for (var i = 0; i < (data.length || 0); i++) {
+                            var item = data[i];
+                            var newFace = $("<div class=\"face-child\"></div>");
+                            newFace.css("height", item.Rectangle.Height + "px");
+                            newFace.css("left", item.Rectangle.Left + "px");
+                            newFace.css("top", item.Rectangle.Top + "px");
+                            newFace.css("width", item.Rectangle.Width + "px");
+                            newFace.appendTo($("#faces"));
+
+                            var faceText = $("<div class=\"face-text-container\"></div>");
+                            faceText.css("left", (item.Rectangle.Left - 4) + "px");
+                            faceText.css("top", (item.Rectangle.Top - 36) + "px");
+                            faceText.css("width", (item.Rectangle.Width + 8) + "px");
+                            var text = "<span>" + item.Gender + "&nbsp;" + item.Age + "</span>";
+                            $(text).appendTo(faceText);
+                            faceText.appendTo($("#faces"));
+                        }
+                    }else if (response.Error) {
+                        console.log(response.Error);
+                    }
+
+                    endCaculate();
+                });
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,121 @@
+﻿@using Net51Zhang.Common
+@using Newtonsoft.Json.Linq
+@model Net51Zhang.Models.Movie.IndexModel
+
+@{
+    Layout = "_MovieLayout.cshtml";
+    var array2Dim = Utils.Convert2DimArray(Model.MovieInTheaters, 4);
+    var array2Dim2 = Utils.Convert2DimArray(Model.MovieComingSoon, 4);
+}
+
+@section breadcrumb
+{
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="/">首页</a></li>
+        <li class="active"><i class="fa fa-file"></i>&nbsp;&nbsp;电影世界</li>
+    </ol>
+}
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">正在上映的电影</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    @foreach (var items in array2Dim)
+                    {
+                        <div class="form-group">
+                            @foreach (var item in items)
+                            {
+                                if (item != null)
+                                {
+                                    <div class="col-lg-3 cursor-point" onclick="window.location.href = '@Url.Action("Detail", "Movie")?id=@item.Id'">
+                                        <div class="text-center">
+                                            <img height="220" src=@item.ImageUrl title=@item.Title/>
+                                        </div>
+                                        <div class="text-center" style="padding-top: 8px">
+                                            <b>@item.Title</b>
+                                        </div>
+                                        <div class="text-center" style="padding-top: 8px">
+                                            <span>
+                                            @{
+                                                if (default(float).CompareTo(item.Score) == 0)
+                                                {
+                                                    <span>暂无评论</span>
+                                                }
+                                                else
+                                                {
+                                                    var startCount = (int) (item.Score + 0.8)/2;
+                                                    for (int i = 0; i < startCount; i++)
+                                                    {
+                                                        <i class="fa fa-star text-warning"></i>
+                                                    }
+                                                    for (var i = 0; i < 5 - startCount; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+                                                    <span class="text-warning">@item.Score</span>
+                                                }
+                                            }
+                                        </span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">即将上映的电影</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    @foreach (var items in array2Dim2)
+                    {
+                        <div class="form-group">
+                            @foreach (var item in items)
+                            {
+                                if (item != null)
+                                {
+                                    <div class="col-lg-3 cursor-point" onclick="window.location.href = '@Url.Action("Detail", "Movie")?id=@item.Id'">
+                                        <div class="text-center">
+                                            <img height="220" src=@item.ImageUrl title=@item.Title/>
+                                        </div>
+                                        <div class="text-center" style="padding-top: 8px">
+                                            <b>@item.Title</b>
+                                        </div>
+                                        <div class="text-center" style="padding-top: 8px">
+                                            <span>
+                                            @{
+                                                if (default(float).CompareTo(item.Score) == 0)
+                                                {
+                                                    <span>暂无评论</span>
+                                                }
+                                                else
+                                                {
+                                                    var startCount = (int) (item.Score + 0.8)/2;
+                                                    for (int i = 0; i < startCount; i++)
+                                                    {
+                                                        <i class="fa fa-star text-warning"></i>
+                                                    }
+                                                    for (var i = 0; i < 5 - startCount; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+                                                    <span class="text-warning">@item.Score</span>
+                                                }
+                                            }
+                                        </span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>

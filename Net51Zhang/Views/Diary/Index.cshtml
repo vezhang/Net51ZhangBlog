@@ -1,0 +1,60 @@
+﻿@model Net51Zhang.Models.Diary.IndexModel
+
+@{
+    Layout = "_DiaryLayout.cshtml";
+}
+
+@section breadcrumb
+{
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="/">首页</a></li>
+        <li class="active"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;奶爸日记</li>
+    </ol>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">奶爸日记</h1>
+    </div>
+    <div class="panel-body">
+        <div class="form-horizontal" style="padding-bottom: 15px">
+            @foreach (var item in Model.DiaryEntities)
+            {
+                <div class="form-group" style="margin-bottom: 0">
+                    <div class="col-lg-3">
+                        <div class="pull-right">
+                            <span style="margin-right: -20px; width: 36px; display: inline-block; padding-top: 50px; padding-bottom: 50px; background-color: lightskyblue">&nbsp;</span>
+                            <span style="display: inline-block;">
+                                    <span style="font-size: 16px; background-color: orange; padding: 10px">@item.CreateTime.Value.ToString("yyyy-MM-dd")</span>
+                                    <span style="color: orange; margin-left: -6px;"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-9" style="height: 110px;padding-top:20px">
+                        <div class="col-lg-12">
+                            <a class="pull-left" style="padding-bottom: 4px; font-size: 18px" href="@Url.Action("Detail", "Diary")?id=@item.Id">@item.Title</a>
+                        </div>
+                        <div class="col-lg-12">
+                            <p>@Model.TrimContent(item.Content)</p>
+                        </div>
+                        <div class="col-lg-12">
+                            <span class="pull-right" >
+                                <a style="font-style:oblique;text-decoration: none" href="@Url.Action("Index", "Diary")?tag=@item.Tag"><i class="fa fa-tag" aria-hidden="true"></i>@item.Tag</a>
+                                <a href="@Url.Action("Detail", "Diary")?id=@item.Id">阅读全文>></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section DiaryPostScripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#time-line").css("height", $("#content-line").css("height"));
+        });
+    </script>
+}

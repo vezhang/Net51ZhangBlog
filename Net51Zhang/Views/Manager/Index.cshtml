@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="padding-top: 25px">
+    <div class="col-lg-8">
+        <a href="@Url.Action("Comments","Movie")" class="list-group-item list-group-item-info">
+            管理电影评论
+        </a>
+        <a href="@Url.Action("Register", "Manager")" class="list-group-item list-group-item-info">
+            注册新用户
+        </a>
+        <a href="@Url.Action("Login","Manager")" class="list-group-item list-group-item-info">
+            重新登陆
+        </a>
+        <a href="@Url.Action("Add","Diary")" class="list-group-item list-group-item-info">
+            添加日记
+        </a>
+        <a href="https://home.console.aliyun.com" target="_blank" class="list-group-item list-group-item-info">
+            阿里云主机
+        </a>
+    </div>
+</div>
+
+
